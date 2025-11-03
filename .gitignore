@@ -1,0 +1,15 @@
+# Subprojetos (têm seus próprios repositórios)
+Java-main/
+VisionMoto/
+mobileSentinelTrack/
+
+# Arquivos do sistema
+.DS_Store
+.vscode/
+
+# Documentos
+*.pdf
+
+# Logs temporários
+*.log
+/tmp/
