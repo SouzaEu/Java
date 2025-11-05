@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head}">
+    <title>Dashboard - SentinelTrack</title>
+</head>
+<body>
+    <nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+    <div class="container mt-4">
+        <!-- Cabeçalho -->
+        <div class="row mb-4">
+            <div class="col">
+                <h1 class="h3">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </h1>
+                <p class="text-muted">Bem-vindo ao SentinelTrack, <span sec:authentication="name">usuário</span>!</p>
+            </div>
+        </div>
+
+        <!-- Cards de Estatísticas -->
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 th:text="${totalPatios}">0</h4>
+                                <p class="mb-0">Total de Pátios</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="bi bi-building fs-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 th:text="${totalMotos}">0</h4>
+                                <p class="mb-0">Total de Motos</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="bi bi-motorcycle fs-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 th:text="${motosDisponiveis}">0</h4>
+                                <p class="mb-0">Motos Disponíveis</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="bi bi-check-circle fs-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="card bg-danger text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 th:text="${motosManutencao}">0</h4>
+                                <p class="mb-0">Em Manutenção</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="bi bi-tools fs-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ações Rápidas -->
+        <div class="row mb-4">
+            <div class="col">
+                <h4>Ações Rápidas</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="bi bi-building text-primary fs-1 mb-3"></i>
+                                <h5>Gerenciar Pátios</h5>
+                                <p class="text-muted">Adicionar, editar ou remover pátios</p>
+                                <a th:href="@{/patios}" class="btn btn-primary">
+                                    <i class="bi bi-arrow-right"></i> Acessar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="bi bi-motorcycle text-success fs-1 mb-3"></i>
+                                <h5>Gerenciar Motos</h5>
+                                <p class="text-muted">Controlar frota de motocicletas</p>
+                                <a th:href="@{/motos}" class="btn btn-success">
+                                    <i class="bi bi-arrow-right"></i> Acessar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-3" sec:authorize="hasAnyRole('ADMIN', 'GERENTE')">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="bi bi-graph-up text-info fs-1 mb-3"></i>
+                                <h5>Relatórios</h5>
+                                <p class="text-muted">Visualizar relatórios e métricas</p>
+                                <a th:href="@{/relatorios}" class="btn btn-info">
+                                    <i class="bi bi-arrow-right"></i> Acessar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Motos Recentes -->
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="bi bi-clock-history"></i> Motos Adicionadas Recentemente
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Placa</th>
+                                        <th>Modelo</th>
+                                        <th>Pátio</th>
+                                        <th>Status</th>
+                                        <th>Data Entrada</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="moto : ${motosRecentes}">
+                                        <td>
+                                            <strong th:text="${moto.placa}">ABC1234</strong>
+                                        </td>
+                                        <td th:text="${moto.modelo}">Honda CG 160</td>
+                                        <td th:text="${moto.nomePatio}">Pátio Central</td>
+                                        <td>
+                                            <span class="badge" 
+                                                  th:classappend="${moto.status == 'DISPONIVEL' ? 'bg-success' : 
+                                                                 (moto.status == 'EM_USO' ? 'bg-warning' : 'bg-danger')}"
+                                                  th:text="${moto.status}">DISPONIVEL</span>
+                                        </td>
+                                        <td th:text="${#dates.format(moto.dataEntrada, 'dd/MM/yyyy')}">01/01/2024</td>
+                                    </tr>
+                                    <tr th:if="${#lists.isEmpty(motosRecentes)}">
+                                        <td colspan="5" class="text-center text-muted">
+                                            Nenhuma moto encontrada
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>
