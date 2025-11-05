@@ -1,10 +1,13 @@
 # 🏍️ SentinelTrack - Sistema de Gestão Mottu
 
 [![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://openjdk.java.net/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.5-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.7-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Thymeleaf](https://img.shields.io/badge/Thymeleaf-3.1-green.svg)](https://www.thymeleaf.org/)
+[![Spring Security](https://img.shields.io/badge/Spring%20Security-6.2-red.svg)](https://spring.io/projects/spring-security)
+[![Flyway](https://img.shields.io/badge/Flyway-9.22-blue.svg)](https://flywaydb.org/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-> **Solução inovadora para gestão inteligente de frotas, usuários e funcionários da Mottu, aplicando conceitos avançados de Java e integração multidisciplinar.**
+> **Aplicação web completa para gestão inteligente de frotas da Mottu, desenvolvida com Spring Boot, Thymeleaf, Spring Security e Flyway para o Challenge FIAP 2024.**
 
 ## 🎯 **Visão Geral da Solução**
 
@@ -37,18 +40,38 @@ Centralização e automação da gestão de recursos humanos e frotas, eliminand
 
 ---
 
-## 📋 **Funcionalidades Principais**
+## 📋 **Funcionalidades Implementadas**
 
-### **1. Gestão de Frotas**
-- ✅ Cadastro de motos
-- ✅ Rastreamento por placa/CPF
-- ✅ Integração com endereços
-- ✅ Auditoria completa
+### **1. 🔐 Sistema de Autenticação e Autorização**
+- ✅ Login via formulário com Spring Security
+- ✅ Três perfis de usuário: ADMIN, GERENTE, OPERADOR
+- ✅ Proteção de rotas baseada em roles
+- ✅ Sessão segura com logout automático
 
-### **2. Sistema de Endereços**
-- ✅ Validação de CEP
-- ✅ Integração geográfica
-- ✅ Relacionamentos complexos
+### **2. 🏢 Gestão de Pátios**
+- ✅ CRUD completo de pátios
+- ✅ Busca por nome
+- ✅ Validação de formulários
+- ✅ Interface responsiva com Thymeleaf
+- ✅ Controle de acesso por perfil
+
+### **3. 🏍️ Gestão de Motos**
+- ✅ Cadastro de motos com validação de placa
+- ✅ Status: DISPONIVEL, EM_USO, MANUTENCAO
+- ✅ Relacionamento com pátios
+- ✅ Busca e filtros avançados
+
+### **4. 📊 Dashboard Interativo**
+- ✅ Estatísticas em tempo real
+- ✅ Cards informativos
+- ✅ Listagem de motos recentes
+- ✅ Ações rápidas por perfil
+
+### **5. 🗄️ Banco de Dados**
+- ✅ Flyway para migrações versionadas
+- ✅ H2 em memória para desenvolvimento
+- ✅ Oracle configurado para produção
+- ✅ 4 migrações implementadas
 
 ---
 
@@ -79,8 +102,9 @@ Centralização e automação da gestão de recursos humanos e frotas, eliminand
 ## 🚀 **Como Executar**
 
 ### **Pré-requisitos:**
-- Java 17+
-- Git
+- ☕ **Java 17+** (obrigatório)
+- 📦 **Git** para clonar o repositório
+- 🌐 **Navegador web** moderno
 
 ### **Execução Local:**
 
@@ -89,14 +113,31 @@ Centralização e automação da gestão de recursos humanos e frotas, eliminand
 git clone https://github.com/FIXMYCAR-CUPINCHA/Java.git
 cd Java
 
-# 2. Crie o arquivo .env
-touch .env
+# 2. Execute com perfil de desenvolvimento (H2 em memória)
+./gradlew bootRun --args='--spring.profiles.active=dev'
 
-# 3. Rode o projeto com:
-./gradlew bootRun
-# ou
-gradlew bootRun
+# 3. Acesse a aplicação
+# http://localhost:8080
 ```
+
+### **🔑 Usuários de Teste:**
+| Usuário | Senha | Perfil | Permissões |
+|---------|-------|--------|------------|
+| `admin` | `admin123` | ADMIN | Acesso total |
+| `gerente` | `admin123` | GERENTE | Gerenciar pátios e motos |
+| `operador` | `admin123` | OPERADOR | Operar motos |
+
+### **🗄️ Banco de Dados:**
+- **Desenvolvimento:** H2 Console em `/h2-console`
+- **Produção:** Oracle (configurar variáveis de ambiente)
+
+### **📱 Endpoints Principais:**
+- `/` - Dashboard principal
+- `/patios` - Gestão de pátios
+- `/motos` - Gestão de motos
+- `/login` - Página de login
+- `/h2-console` - Console H2 (dev)
+- `/swagger-ui` - Documentação API
 
 
 ## 🎓 **Integração Multidisciplinar**
