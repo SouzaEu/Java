@@ -1,6 +1,6 @@
 # 🏍️ SentinelTrack - Sistema de Gestão Mottu
 
-[![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.java.net/)
+[![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://openjdk.java.net/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.5-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
@@ -9,10 +9,8 @@
 ## 🎯 **Visão Geral da Solução**
 
 O **SentinelTrack** é uma plataforma completa desenvolvida para resolver desafios reais da Mottu na gestão de:
-- 👥 **Usuários e Funcionários** com autenticação segura
 - 🏍️ **Frotas de Motos** com rastreamento completo
 - 📍 **Endereços e Localização** integrados
-- 🔒 **Segurança e Auditoria** de dados
 
 ### **Problema Resolvido**
 Centralização e automação da gestão de recursos humanos e frotas, eliminando processos manuais e aumentando a eficiência operacional da Mottu.
@@ -23,56 +21,31 @@ Centralização e automação da gestão de recursos humanos e frotas, eliminand
 
 ### **🌐 Aplicação Rodando:**
 - **URL:** [Em breve - Deploy em andamento]
-- **Usuário Demo:** `99999999999`
-- **Senha:** `admin123`
 
 ---
 
 ## 🛠️ **Tecnologias e Arquitetura**
 
 ### **Backend (Java Advanced)**
-- **Java 21** - Versão LTS mais recente
+- **Java 17** - Versão Java
 - **Spring Boot 3.4.5** - Framework principal
-- **Spring Security** - Autenticação e autorização
 - **Spring Data JPA** - Persistência de dados
-- **Flyway** - Controle de versão do banco
 - **H2/Oracle** - Bancos de dados (dev/prod)
 
-### **Frontend & UX**
-- **Thymeleaf** - Template engine
-- **Bootstrap 5** - Framework CSS responsivo
-- **JavaScript** - Interatividade
-- **CSS3** - Estilização moderna
-
 ### **DevOps & Deploy**
-- **Maven** - Gerenciamento de dependências
-- **Docker** - Containerização
-- **Netlify** - Deploy automatizado
-- **GitHub Actions** - CI/CD
+- **Gradle** - Gerenciamento de dependências
 
 ---
 
 ## 📋 **Funcionalidades Principais**
 
-### **1. Gestão de Usuários**
-- ✅ Cadastro completo com validações
-- ✅ Autenticação segura (Spring Security)
-- ✅ Perfis e permissões
-- ✅ Histórico de ações
-
-### **2. Controle de Funcionários**
-- ✅ CRUD completo
-- ✅ Caching inteligente
-- ✅ Busca avançada
-- ✅ Relatórios
-
-### **3. Gestão de Frotas**
+### **1. Gestão de Frotas**
 - ✅ Cadastro de motos
 - ✅ Rastreamento por placa/CPF
 - ✅ Integração com endereços
 - ✅ Auditoria completa
 
-### **4. Sistema de Endereços**
+### **2. Sistema de Endereços**
 - ✅ Validação de CEP
 - ✅ Integração geográfica
 - ✅ Relacionamentos complexos
@@ -97,29 +70,16 @@ Centralização e automação da gestão de recursos humanos e frotas, eliminand
 
 ---
 
-## 🗄️ **Modelo de Dados**
-
-```sql
--- Estrutura principal (V1__create_core_tables.sql)
-T_MT_ENDERECO    → Endereços completos
-T_MT_MOTO        → Dados das motocicletas  
-T_MT_USUARIO     → Usuários do sistema
-T_MT_FUNCIONARIO → Funcionários da empresa
-T_MT_ROLE        → Perfis de acesso
-```
-
 ### **Relacionamentos:**
-- Usuario ↔ Endereco (1:1)
-- Usuario ↔ Moto (1:1)
-- Funcionario ↔ Role (N:M)
+- Patio ↔ Moto (N:1)
+
 
 ---
 
 ## 🚀 **Como Executar**
 
 ### **Pré-requisitos:**
-- Java 21+
-- Maven 3.8+
+- Java 17+
 - Git
 
 ### **Execução Local:**
@@ -129,38 +89,15 @@ T_MT_ROLE        → Perfis de acesso
 git clone https://github.com/FIXMYCAR-CUPINCHA/Java.git
 cd Java
 
-# 2. Configure o ambiente
-export JAVA_HOME="/opt/homebrew/opt/openjdk@21"
-export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
+# 2. Crie o arquivo .env
+touch .env
 
-# 3. Build da aplicação
-./mvnw clean package -DskipTests
-
-# 4. Execute com H2 (desenvolvimento)
-export DB_URL="jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"
-export DB_DRIVER="org.h2.Driver"
-export DB_USER="sa"
-export DB_PASS=""
-export FLYWAY_ENABLED="false"
-export JPA_DDL_AUTO="create-drop"
-export HIBERNATE_DIALECT="org.hibernate.dialect.H2Dialect"
-
-./mvnw spring-boot:run
+# 3. Rode o projeto com:
+./gradlew bootRun
+# ou
+gradlew bootRun
 ```
 
-### **Docker:**
-```bash
-# Build da imagem
-docker build -t sentineltrack:latest .
-
-# Execução
-docker run -p 8080:8080 \
-  -e DB_URL="jdbc:h2:mem:testdb" \
-  -e DB_DRIVER="org.h2.Driver" \
-  sentineltrack:latest
-```
-
----
 
 ## 🎓 **Integração Multidisciplinar**
 
@@ -223,9 +160,7 @@ docker run -p 8080:8080 \
 ## 🏆 **Diferenciais da Solução**
 
 ### **Inovação Tecnológica:**
-- 🚀 **Java 21** - Recursos mais recentes
 - ⚡ **Performance** - Caching inteligente
-- 🔒 **Segurança** - Autenticação robusta
 - 📱 **Responsivo** - Design adaptativo
 
 ### **Alinhamento com Mottu:**
