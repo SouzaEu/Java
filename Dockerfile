@@ -8,19 +8,17 @@ COPY . .
 RUN gradle clean build -x test
 
 # Runtime stage
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
-# Instalar dependências necessárias
-RUN apt-get update && apt-get install -y \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+# Instalar dependências necessárias (Alpine Linux)
+RUN apk add --no-cache curl
 
 # Copiar JAR da aplicação
 COPY --from=build /app/build/libs/*.jar app.jar
 
-# Criar usuário não-root
-RUN addgroup --system spring && adduser --system spring --ingroup spring
+# Criar usuário não-root (Alpine Linux)
+RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
 
 # Expor porta
