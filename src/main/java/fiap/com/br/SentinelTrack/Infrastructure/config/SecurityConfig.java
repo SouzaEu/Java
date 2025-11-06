@@ -26,6 +26,9 @@ public class SecurityConfig {
                 .requestMatchers("/h2-console/**").permitAll() // Para desenvolvimento
                 .requestMatchers("/login", "/error").permitAll()
                 
+                // APIs REST para Mobile App - Challenge 2025
+                .requestMatchers("/api/**").permitAll()
+                
                 // Rotas protegidas por perfil
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/gerente/**").hasAnyRole("ADMIN", "GERENTE")
@@ -53,8 +56,8 @@ public class SecurityConfig {
                 .maxSessionsPreventsLogin(false)
             );
 
-        // Para H2 Console (apenas desenvolvimento)
-        http.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"));
+        // Para H2 Console e APIs REST (apenas desenvolvimento)
+        http.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**", "/api/**"));
         http.headers(headers -> headers.frameOptions().sameOrigin());
 
         return http.build();

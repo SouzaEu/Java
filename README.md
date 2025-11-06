@@ -23,7 +23,11 @@ Centralização e automação da gestão de recursos humanos e frotas, eliminand
 ## 🚀 **Demonstração Online**
 
 ### **🌐 Aplicação Rodando:**
-- **URL:** [Em breve - Deploy em andamento]
+- **URL Local:** `http://localhost:8080`
+- **Deploy:** Railway/Heroku configurado (ver seção Deploy)
+- **APIs REST:** `/api/mobile/*` para integração com Mobile App
+- **Health Check:** `/api/mobile/health`
+- **Swagger UI:** `/swagger-ui/index.html`
 
 ---
 
@@ -138,6 +142,66 @@ cd Java
 - `/login` - Página de login
 - `/h2-console` - Console H2 (dev)
 - `/swagger-ui` - Documentação API
+
+### **🔌 APIs REST para Mobile (Challenge 2025):**
+- `GET /api/mobile/health` - Health check
+- `POST /api/mobile/auth/login` - Autenticação JWT
+- `GET /api/mobile/dashboard` - Dashboard com estatísticas
+- `GET /api/mobile/motos` - Listar motos
+- `GET /api/mobile/motos/buscar/{placa}` - Buscar por placa
+- `POST /api/mobile/motos` - Cadastrar moto
+- `PUT /api/mobile/motos/{id}` - Atualizar moto
+- `DELETE /api/mobile/motos/{id}` - Remover moto
+- `GET /api/mobile/patios` - Listar pátios
+- `POST /api/mobile/relatorios/uso` - Gerar relatórios
+- `POST /api/mobile/sync` - Sincronização com outras APIs
+
+---
+
+## 🚀 **Deploy e Produção**
+
+### **Railway Deploy (Recomendado)**
+```bash
+# 1. Instalar Railway CLI
+npm install -g @railway/cli
+
+# 2. Login no Railway
+railway login
+
+# 3. Deploy do projeto
+railway up
+```
+
+### **Heroku Deploy**
+```bash
+# 1. Instalar Heroku CLI
+# 2. Login no Heroku
+heroku login
+
+# 3. Criar aplicação
+heroku create sentineltrack-api
+
+# 4. Deploy via Docker
+heroku container:push web
+heroku container:release web
+```
+
+### **Docker Local**
+```bash
+# Build da imagem
+docker build -t sentineltrack-api .
+
+# Executar container
+docker run -p 8080:8080 sentineltrack-api
+```
+
+### **Variáveis de Ambiente**
+```bash
+# Para produção, configure:
+export SPRING_PROFILES_ACTIVE=prod
+export DATABASE_URL=jdbc:oracle:thin:@//host:port/service
+export JWT_SECRET=your-secret-key-here
+```
 
 
 ## 🎓 **Integração Multidisciplinar**
