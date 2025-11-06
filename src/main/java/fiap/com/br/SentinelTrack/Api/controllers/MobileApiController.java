@@ -101,20 +101,26 @@ public class MobileApiController {
     }
 
     /**
-     * Valida credenciais (demonstração)
+     * Valida credenciais do usuário
+     * Implementação simplificada para o Challenge - em produção usar Spring Security completo
      */
     private boolean isValidCredentials(String email, String senha) {
-        // Para demonstração: aceita qualquer email válido com senha >= 6 caracteres
-        // Em produção: verificar hash da senha no banco de dados
-        return email.contains("@") && senha.length() >= 6;
+        // Validação básica de formato e tamanho
+        // Em ambiente real: verificar hash da senha no banco de dados
+        return email.contains("@") && 
+               email.length() > 5 && 
+               senha.length() >= 6 &&
+               !senha.equals("123456"); // Evitar senhas muito simples
     }
 
     /**
-     * Determina role do usuário baseado no email (demonstração)
+     * Determina role do usuário baseado no email
+     * Em produção: buscar role do banco de dados
      */
     private String determineUserRole(String email) {
-        if (email.contains("admin")) return "ADMIN";
-        if (email.contains("gerente")) return "GERENTE";
+        // Lógica de negócio para determinar roles
+        if (email.toLowerCase().contains("admin")) return "ADMIN";
+        if (email.toLowerCase().contains("gerente") || email.toLowerCase().contains("manager")) return "GERENTE";
         return "OPERADOR";
     }
 
