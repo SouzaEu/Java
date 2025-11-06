@@ -24,7 +24,7 @@ Centralização e automação da gestão de recursos humanos e frotas, eliminand
 
 ### **🌐 Aplicação Rodando:**
 - **URL Local:** `http://localhost:8080`
-- **Deploy:** Railway/Heroku configurado (ver seção Deploy)
+- **URL Produção:** `https://sentineltrack-api.onrender.com` (Render)
 - **APIs REST:** `/api/mobile/*` para integração com Mobile App
 - **Health Check:** `/api/mobile/health`
 - **Swagger UI:** `/swagger-ui/index.html`
@@ -160,7 +160,20 @@ cd Java
 
 ## 🚀 **Deploy e Produção**
 
-### **Railway Deploy (Recomendado)**
+### **Render Deploy (Recomendado)**
+```bash
+# 1. Acesse render.com e faça login
+# 2. Conecte com GitHub
+# 3. Selecione o repositório Java-main
+# 4. Configure:
+#    - Name: sentineltrack-api
+#    - Environment: Java 17
+#    - Build Command: ./build.sh
+#    - Start Command: ./start.sh
+# 5. Deploy automático!
+```
+
+### **Railway Deploy (Alternativo)**
 ```bash
 # 1. Instalar Railway CLI
 npm install -g @railway/cli
@@ -170,20 +183,6 @@ railway login
 
 # 3. Deploy do projeto
 railway up
-```
-
-### **Heroku Deploy**
-```bash
-# 1. Instalar Heroku CLI
-# 2. Login no Heroku
-heroku login
-
-# 3. Criar aplicação
-heroku create sentineltrack-api
-
-# 4. Deploy via Docker
-heroku container:push web
-heroku container:release web
 ```
 
 ### **Docker Local**
