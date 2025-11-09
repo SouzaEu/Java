@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head}">
+    <title>Pátios - SentinelTrack</title>
+</head>
+<body>
+    <nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+    <div class="container mt-4">
+        <!-- Cabeçalho -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h1 class="h3">
+                    <i class="bi bi-building"></i> Gerenciar Pátios
+                </h1>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a th:href="@{/patios/new}" class="btn btn-primary" sec:authorize="hasAnyRole('ADMIN', 'GERENTE')">
+                    <i class="bi bi-plus-circle"></i> Novo Pátio
+                </a>
+            </div>
+        </div>
+
+        <!-- Mensagens -->
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> <span th:text="${success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle"></i> <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- Busca -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <form th:action="@{/patios}" method="get" class="d-flex">
+                    <input type="text" 
+                           name="busca" 
+                           th:value="${busca}"
+                           class="form-control me-2" 
+                           placeholder="Buscar por nome do pátio...">
+                    <button type="submit" class="btn btn-outline-primary">
+                        <i class="bi bi-search"></i>
+                    </button>
+                    <a th:href="@{/patios}" class="btn btn-outline-secondary ms-2" th:if="${busca}">
+                        <i class="bi bi-x"></i>
+                    </a>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tabela de Pátios -->
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Endereço</th>
+                                <th>Área (m²)</th>
+                                <th>Motos</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="patio : ${patios}">
+                                <td>
+                                    <strong th:text="${patio.id}">#1</strong>
+                                </td>
+                                <td>
+                                    <a th:href="@{/patios/{id}(id=${patio.id})}" 
+                                       th:text="${patio.nome}"
+                                       class="text-decoration-none">
+                                        Pátio Central
+                                    </a>
+                                </td>
+                                <td>
+                                    <div th:text="${patio.endereco}">Av. Paulista, 1000</div>
+                                    <small class="text-muted" th:text="${patio.complemento}" th:if="${patio.complemento}">
+                                        Próximo ao metrô
+                                    </small>
+                                </td>
+                                <td>
+                                    <span th:text="${#numbers.formatDecimal(patio.areaM2, 1, 2)}">5000,00</span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-primary" th:text="${#lists.size(patio.motos ?: {})}">0</span>
+                                    motos
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a th:href="@{/patios/{id}(id=${patio.id})}" 
+                                           class="btn btn-sm btn-outline-info"
+                                           title="Ver detalhes">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a th:href="@{/patios/edit/{id}(id=${patio.id})}" 
+                                           class="btn btn-sm btn-outline-warning"
+                                           sec:authorize="hasAnyRole('ADMIN', 'GERENTE')"
+                                           title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <button type="button" 
+                                                class="btn btn-sm btn-outline-danger"
+                                                sec:authorize="hasAnyRole('ADMIN', 'GERENTE')"
+                                                title="Excluir"
+                                                data-bs-toggle="modal" 
+                                                th:data-bs-target="'#deleteModal' + ${patio.id}">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+
+                                    <!-- Modal de Confirmação de Exclusão -->
+                                    <div class="modal fade" th:id="'deleteModal' + ${patio.id}" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Confirmar Exclusão</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Tem certeza que deseja excluir o pátio <strong th:text="${patio.nome}">?</strong></p>
+                                                    <p class="text-muted">Esta ação não pode ser desfeita.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                        Cancelar
+                                                    </button>
+                                                    <form th:action="@{/patios/delete/{id}(id=${patio.id})}" method="post" class="d-inline">
+                                                        <button type="submit" class="btn btn-danger">
+                                                            <i class="bi bi-trash"></i> Excluir
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(patios)}">
+                                <td colspan="6" class="text-center text-muted py-4">
+                                    <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                                    <span th:if="${busca}">Nenhum pátio encontrado para "<strong th:text="${busca}"></strong>"</span>
+                                    <span th:unless="${busca}">Nenhum pátio cadastrado</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

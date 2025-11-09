@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head}">
+    <title th:text="${isEdit ? 'Editar Pátio' : 'Novo Pátio'} + ' - SentinelTrack'">Pátio - SentinelTrack</title>
+</head>
+<body>
+    <nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+    <div class="container mt-4">
+        <!-- Cabeçalho -->
+        <div class="row mb-4">
+            <div class="col">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a th:href="@{/dashboard}">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a th:href="@{/patios}">Pátios</a>
+                        </li>
+                        <li class="breadcrumb-item active" th:text="${isEdit ? 'Editar' : 'Novo'}">Novo</li>
+                    </ol>
+                </nav>
+                
+                <h1 class="h3">
+                    <i class="bi bi-building"></i>
+                    <span th:text="${isEdit ? 'Editar Pátio' : 'Novo Pátio'}">Novo Pátio</span>
+                </h1>
+            </div>
+        </div>
+
+        <!-- Mensagens de Erro -->
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle"></i> <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- Formulário -->
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form th:action="${isEdit ? '/patios/edit/' + patioId : '/patios/new'}" 
+                              method="post" 
+                              th:object="${patio}">
+                            
+                            <!-- Nome -->
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">
+                                    Nome do Pátio <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       th:classappend="${#fields.hasErrors('nome')} ? 'is-invalid' : ''"
+                                       id="nome" 
+                                       th:field="*{nome}"
+                                       placeholder="Ex: Pátio Central São Paulo"
+                                       required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}">
+                                    <span th:errors="*{nome}"></span>
+                                </div>
+                            </div>
+
+                            <!-- Endereço -->
+                            <div class="mb-3">
+                                <label for="endereco" class="form-label">Endereço</label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       th:classappend="${#fields.hasErrors('endereco')} ? 'is-invalid' : ''"
+                                       id="endereco" 
+                                       th:field="*{endereco}"
+                                       placeholder="Ex: Av. Paulista, 1000">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('endereco')}">
+                                    <span th:errors="*{endereco}"></span>
+                                </div>
+                            </div>
+
+                            <!-- Complemento -->
+                            <div class="mb-3">
+                                <label for="complemento" class="form-label">Complemento</label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       th:classappend="${#fields.hasErrors('complemento')} ? 'is-invalid' : ''"
+                                       id="complemento" 
+                                       th:field="*{complemento}"
+                                       placeholder="Ex: Próximo ao metrô">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('complemento')}">
+                                    <span th:errors="*{complemento}"></span>
+                                </div>
+                            </div>
+
+                            <!-- Área -->
+                            <div class="mb-3">
+                                <label for="areaM2" class="form-label">Área (m²)</label>
+                                <div class="input-group">
+                                    <input type="number" 
+                                           class="form-control" 
+                                           th:classappend="${#fields.hasErrors('areaM2')} ? 'is-invalid' : ''"
+                                           id="areaM2" 
+                                           th:field="*{areaM2}"
+                                           step="0.01"
+                                           min="0"
+                                           placeholder="5000.00">
+                                    <span class="input-group-text">m²</span>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('areaM2')}">
+                                        <span th:errors="*{areaM2}"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ID Localidade -->
+                            <div class="mb-4">
+                                <label for="idLocalidade" class="form-label">
+                                    ID da Localidade <span class="text-danger">*</span>
+                                </label>
+                                <input type="number" 
+                                       class="form-control" 
+                                       th:classappend="${#fields.hasErrors('idLocalidade')} ? 'is-invalid' : ''"
+                                       id="idLocalidade" 
+                                       th:field="*{idLocalidade}"
+                                       min="1"
+                                       placeholder="1"
+                                       required>
+                                <div class="form-text">
+                                    Identificador da localidade onde o pátio está situado
+                                </div>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('idLocalidade')}">
+                                    <span th:errors="*{idLocalidade}"></span>
+                                </div>
+                            </div>
+
+                            <!-- Botões -->
+                            <div class="d-flex justify-content-between">
+                                <a th:href="@{/patios}" class="btn btn-secondary">
+                                    <i class="bi bi-arrow-left"></i> Voltar
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-check-circle"></i>
+                                    <span th:text="${isEdit ? 'Atualizar' : 'Criar'} + ' Pátio'">Criar Pátio</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>
