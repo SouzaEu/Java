@@ -1,0 +1,5 @@
+#!/bin/sh
+# Maven Wrapper script
+# This is a placeholder - run: mvn wrapper:wrapper to generate the actual wrapper
+echo "Please run: mvn wrapper:wrapper to generate Maven wrapper files"
+exit 1
