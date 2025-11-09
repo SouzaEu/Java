@@ -13,3 +13,11 @@ mobileSentinelTrack/
 # Logs temporários
 *.log
 /tmp/
+
+# Build e dependências
+.gradle/
+build/
+target/
+bin/
+out/
+*.class
