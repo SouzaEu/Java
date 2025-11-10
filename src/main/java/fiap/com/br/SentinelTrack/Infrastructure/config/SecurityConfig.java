@@ -26,6 +26,9 @@ public class SecurityConfig {
                 .requestMatchers("/h2-console/**").permitAll() // Para desenvolvimento
                 .requestMatchers("/login", "/error").permitAll()
                 
+                // Swagger/OpenAPI - Para desenvolvimento
+                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+                
                 // APIs REST para Mobile App - Challenge 2025
                 .requestMatchers("/api/**").permitAll()
                 

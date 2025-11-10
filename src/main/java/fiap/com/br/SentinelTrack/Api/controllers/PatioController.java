@@ -10,7 +10,7 @@ import fiap.com.br.SentinelTrack.Application.dto.PatioDTO;
 import fiap.com.br.SentinelTrack.Application.services.PatioService;
 
 @RestController
-@RequestMapping("/patios")
+@RequestMapping("/api/patios")
 public class PatioController {
     
     private final PatioService patioService;
